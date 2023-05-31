@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'Inscription.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -16,52 +18,89 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Inscription'),
+      home: const TextFieldScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+class TextFieldScreen extends StatefulWidget {
+  const TextFieldScreen({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<TextFieldScreen> createState() => _TextFieldScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class _TextFieldScreenState extends State<TextFieldScreen> {
+  final _controllerusername= TextEditingController();
+  final _controllerpassword= TextEditingController();
+  String name= "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('data'),
-                Text('data'),
-                ButtonBar()
-              ],
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(name),
+          Container(
+           child: TextField(
+             controller: _controllerusername,
+             decoration: InputDecoration(
+               labelText: 'Username',
+               hintText: 'Enter your username',
+             ),
+           ),
+           padding: EdgeInsets.all(32),
+         ),
+          Container(
+            child: TextField(
+              controller: _controllerpassword,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                hintText: 'Enter your password',
+              ),
             ),
+            padding: EdgeInsets.all(32),
+          ),
+          Container(
+              width: double.infinity,
+              child:TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                  foregroundColor:  MaterialStateProperty.all<Color>(Colors.white),
+                ),
+                child: Text("Connexion "),
+               onPressed:(){
+                setState(() {
+                  name =_controllerusername.text;
+                });
+               },
+              ),
+              padding: EdgeInsets.all(32),
+            ),
+          Container(
+            width: double.infinity,
+            child:TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                foregroundColor:  MaterialStateProperty.all<Color>(Colors.white),
+              ),
+              child: Text("Inscription "),
+              onPressed:(){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Inscription()),
+                );
+                setState(() {
+                  name =_controllerusername.text;
+                });
+              },
+            ),
+            padding: EdgeInsets.fromLTRB(32,0, 32, 0),
+          ),
+        ],
 
-
-    ],
-    ),
+      ),
     );
   }
 }
