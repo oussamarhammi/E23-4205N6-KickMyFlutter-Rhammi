@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp1/Accueil.dart';
 
 import 'Inscription.dart';
 
@@ -71,6 +72,10 @@ class _TextFieldScreenState extends State<TextFieldScreen> {
                 ),
                 child: Text("Connexion "),
                onPressed:(){
+                 Navigator.push(
+                   context,
+                   MaterialPageRoute(builder: (context) => Accueil()),
+                 );
                 setState(() {
                   name =_controllerusername.text;
                 });
