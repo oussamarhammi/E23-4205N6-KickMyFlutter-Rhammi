@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tp1/Accueil.dart';
+import 'package:dio/dio.dart';
+import 'package:tp1/transfer.dart';
 
 import 'Inscription.dart';
 
@@ -34,7 +36,48 @@ class TextFieldScreen extends StatefulWidget {
 class _TextFieldScreenState extends State<TextFieldScreen> {
   final _controllerusername= TextEditingController();
   final _controllerpassword= TextEditingController();
+
+  SignupResponse signupresponse = SignupResponse();
+  final dio = Dio();
+  void postSigninrequest() async {
+    try{
+      Response response;
+      response = await dio.post('http://10.0.2.2:8080/api/home', data: {'name': name, 'password': password});
+      setState(() {
+        name =_controllerusername.text;
+        password = _controllerpassword.text;
+      });
+      print(response.data.toString());
+    }
+    catch(e){
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erreur reseau'),
+      ));
+    }
+  }
+
+
+  void postSignUpRequest() async {
+    try{
+      Response response;
+      response = await dio.post('http://10.0.2.2:8080/api/home', data: {'name': name, 'password': password});
+      setState(() {
+        name =_controllerusername.text;
+        password = _controllerpassword.text;
+      });
+      print(response.data.toString());
+    }
+    catch(e){
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erreur reseau'),
+          ));
+    }
+  }
+
   String name= "";
+  String password = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,13 +115,11 @@ class _TextFieldScreenState extends State<TextFieldScreen> {
                 ),
                 child: Text("Connexion "),
                onPressed:(){
+                 postSignUpRequest;
                  Navigator.push(
                    context,
                    MaterialPageRoute(builder: (context) => Accueil()),
                  );
-                setState(() {
-                  name =_controllerusername.text;
-                });
                },
               ),
               padding: EdgeInsets.all(32),
@@ -96,9 +137,6 @@ class _TextFieldScreenState extends State<TextFieldScreen> {
                   context,
                   MaterialPageRoute(builder: (context) => Inscription()),
                 );
-                setState(() {
-                  name =_controllerusername.text;
-                });
               },
             ),
             padding: EdgeInsets.fromLTRB(32,0, 32, 0),
