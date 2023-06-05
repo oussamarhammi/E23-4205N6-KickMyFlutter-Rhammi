@@ -93,6 +93,31 @@ Future<SigninResponse> signin(SigninRequest req) async {
   }
 }
 
+Future<List<HomeItemResponse>> home() async {
+  try {
+    var response = await SingletonDio.getDio().get(
+        'http://10.0.2.2:8080/api/home'
+    );
+    print(response);
+    var listeJSON = response.data as List;
+    var listeTruc = listeJSON.map(
+            (elementJSON) {
+          return HomeItemResponse.fromJson(elementJSON);
+        }
+    ).toList();
+    return  listeTruc;
+  } catch (e) {
+    print(e);
+    String message = (e as DioError).response!.data;
+    if(message == "InternalAuthenticationServiceException") {
+      throw Exception('utilisateur non connecter');
+    }
+    else{
+      throw Exception('Erreur avec le serveur');
+    }
+  }
+}
+
 class ServerException implements Exception {
 
 }
