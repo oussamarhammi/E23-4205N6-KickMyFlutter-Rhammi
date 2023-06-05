@@ -14,6 +14,14 @@ class SignupRequest {
   Map<String, dynamic> toJson() => _$SignupRequestToJson(this);
 }
 
+class SigninRequest {
+  SigninRequest();
+  String username='';
+  String password='';
+  factory SigninRequest.fromJson(Map<String, dynamic> json) => _$SigninRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$SigninRequestToJson(this);
+}
+
 class SignupResponse {
   SignupResponse();
   String username='';

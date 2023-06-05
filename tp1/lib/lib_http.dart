@@ -44,6 +44,30 @@ Future<SignupResponse> signup(SignupRequest req) async {
   }
 }
 
+Future<SignupResponse> signin(SigninRequest req) async {
+  try {
+    var response = await SingletonDio.getDio().post(
+        'http://10.0.2.2:8080/api/id/signin',
+        data: req
+    );
+    print(response);
+    return  SignupResponse.fromJson(response.data);
+
+  } catch (e) {
+    print(e);
+    String message = (e as DioError).response!.data;
+    if(message == "InternalAuthenticationServiceException") {
+      throw Exception('utilisateur n existe pas');
+    }
+    if(message == "BadCredentialsException") {
+      throw Exception(' nom utilisateur ou mot de passe non valide');
+    }
+    else{
+      throw Exception('Erreur avec le serveur');
+    }
+  }
+}
+
 class ServerException implements Exception {
 
 }
