@@ -5,66 +5,51 @@ import 'package:tp1/transfer.dart';
 
 import 'lib_http.dart';
 
-
-
-class Inscription extends StatelessWidget {
-  const Inscription({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const Inscription(),
-    );
-  }
-}
-class TextFieldScreen extends StatefulWidget {
-  const TextFieldScreen({Key? key}) : super(key: key);
+class Inscription extends StatefulWidget {
+  const Inscription({Key? key}) : super(key: key);
 
   @override
-  State<TextFieldScreen> createState() => _TextFieldScreenState();
+  State<Inscription> createState() => _Inscription();
 }
 
-class _TextFieldScreenState extends State<TextFieldScreen> {
+class _Inscription extends State<Inscription> {
   final _controllerusername= TextEditingController();
   final _controllerpassword= TextEditingController();
+  final _controllerconfirmedpassword= TextEditingController();
   SignupResponse signupresponse = SignupResponse();
   String name= "";
   String password = "";
   void postSignuprequest() async {
     try{
       SignupRequest req = SignupRequest();
-      req.username = name;
-      req.password = password;
-      var response = await signup(req);
-      print(response);
-      setState(() {});
-    }on DioError catch(e){
-      print(e);
-      String message = e.response!.data;
-      if(message == "BadCredentialsException") {
+      req.username = _controllerusername.text;
+      req.password = _controllerpassword.text;
+      if(req.password != _controllerconfirmedpassword.text){
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('login deja utilisé'),
+            const SnackBar(content: Text('mot de passe non identique'),
             ));
       }else{
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('erreurserveur'),
-            ));
+      var response = await signup(req);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Accueil()),
+      );
+      print(response);
+      setState(() {});
       }
+    } on Exception catch(e) {
+      print(e);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString()),
+          ));
+
     }
   }
 
 
   @override
   Widget build(BuildContext context) {
-    final _controllerusername= TextEditingController();
-    final _controllerpassword= TextEditingController();
-    String name= "";
     return Scaffold(
       appBar: AppBar(
         title: Text('Inscription'),
@@ -96,7 +81,7 @@ class _TextFieldScreenState extends State<TextFieldScreen> {
           ),
           Container(
             child: TextField(
-              controller: _controllerpassword,
+              controller: _controllerconfirmedpassword,
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Confirm Password',
