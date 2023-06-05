@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tp1/CreationTache.dart';
 
 class Accueil extends StatelessWidget {
   @override
@@ -15,14 +16,21 @@ class Accueil extends StatelessWidget {
         children: <Widget>[
           Text(name),
           Container(
-            child: TextField(
-              controller: _controllerusername,
-              decoration: InputDecoration(
-                labelText: 'Username',
-                hintText: 'Enter your username',
+            width: double.infinity,
+            padding: EdgeInsets.fromLTRB(32,0, 32,150),
+            child:TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                foregroundColor:  MaterialStateProperty.all<Color>(Colors.white),
               ),
+              child: Text("Cree Tache "),
+              onPressed:() async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CreationTache()),
+                );
+              },
             ),
-            padding: EdgeInsets.fromLTRB(32,1, 32, 20),
           ),
         ]
       )

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tp1/Accueil.dart';
-import 'package:dio/dio.dart';
-import 'package:tp1/transfer.dart';
+
 
 import 'Inscription.dart';
 import 'connexion.dart';

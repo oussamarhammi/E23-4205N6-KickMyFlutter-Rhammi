@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:tp1/transfer.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
@@ -17,14 +16,14 @@ class SingletonDio {
 }
 
 
-Future<SignupResponse> signup(SignupRequest req) async {
+Future<SigninResponse> signup(SignupRequest req) async {
   try {
     var response = await SingletonDio.getDio().post(
         'http://10.0.2.2:8080/api/id/signup',
-        data: req
+        data: req.toJson()
     );
     print(response);
-    return  SignupResponse.fromJson(response.data);
+    return  SigninResponse.fromJson(response.data);
 
   } catch (e) {
     print(e);
@@ -44,14 +43,40 @@ Future<SignupResponse> signup(SignupRequest req) async {
   }
 }
 
-Future<SignupResponse> signin(SigninRequest req) async {
+Future<String> addtask(AddTaskRequest req) async {
+  try {
+    var response = await SingletonDio.getDio().post(
+        'http://10.0.2.2:8080/api/add',
+        data: req.toJson()
+    );
+    print(response);
+    return  response.data;
+
+  } catch (e) {
+    print(e);
+    String message = (e as DioError).response!.data;
+    if(message == "TooShort") {
+      throw Exception('nom de tache trop court');
+    }
+    if(message == "Empty") {
+      throw Exception('veuillez nommez votre tache');
+    }
+    if(message == "Existing") {
+      throw Exception('tache existe deja');
+    }else{
+      throw Exception('Erreur avec le serveur');
+    }
+  }
+}
+
+Future<SigninResponse> signin(SigninRequest req) async {
   try {
     var response = await SingletonDio.getDio().post(
         'http://10.0.2.2:8080/api/id/signin',
-        data: req
+        data: req.toJson()
     );
     print(response);
-    return  SignupResponse.fromJson(response.data);
+    return  SigninResponse.fromJson(response.data);
 
   } catch (e) {
     print(e);

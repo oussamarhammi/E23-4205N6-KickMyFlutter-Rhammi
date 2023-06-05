@@ -16,7 +16,7 @@ class _Inscription extends State<Inscription> {
   final _controllerusername= TextEditingController();
   final _controllerpassword= TextEditingController();
   final _controllerconfirmedpassword= TextEditingController();
-  SignupResponse signupresponse = SignupResponse();
+  SigninResponse signinresponse = SigninResponse();
   String name= "";
   String password = "";
   void postSignuprequest() async {

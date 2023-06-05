@@ -21,7 +21,7 @@ class _Connexion extends State<Connexion> {
   final _controllerpassword= TextEditingController();
   String name= "";
   String password = "";
-  SignupResponse signupresponse = SignupResponse();
+  SigninResponse signupresponse = SigninResponse();
   final dio = Dio();
   void postSigninrequest() async {
     try {
