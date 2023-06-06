@@ -88,6 +88,24 @@ Future<String> signout() async {
     }
   }
 
+Future<TaskDetailResponse> detail(String id) async {
+  try {
+    var response = await SingletonDio.getDio().get(
+      'http://10.0.2.2:8080/api/detail/'+id,
+    );
+    print(response);
+    return  TaskDetailResponse.fromJson(response.data);
+  } catch (e) {
+    print(e);
+    String message = (e as DioError).response!.data;
+    if(message == "NoSuchElementException") {
+      throw Exception('id n existe pas');
+    }
+    else{
+      throw Exception('erreur serveur');
+    }
+  }
+}
 
 Future<SigninResponse> signin(SigninRequest req) async {
   try {

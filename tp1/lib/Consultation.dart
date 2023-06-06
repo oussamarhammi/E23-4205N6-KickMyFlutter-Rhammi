@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tp1/transfer.dart';
 
 import 'Accueil.dart';
 import 'CreationTache.dart';
@@ -15,6 +16,8 @@ class Consultation extends StatefulWidget {
 }
 
 class _ConsultationState extends State<Consultation> {
+
+  TaskDetailResponse taskDetailResponse = TaskDetailResponse();
   void postSignOUt() async{
     var response = await signout();
     Navigator.push(
@@ -24,7 +27,24 @@ class _ConsultationState extends State<Consultation> {
     print(response);
     setState(() {});
   }
-
+  void getdetail(String id) async {
+    try{
+      var response = await detail(id) ;
+      taskDetailResponse.id=response.id;
+      print(response);
+      setState(() {});
+    }
+    catch(e){
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erreur reseau'),
+          ));
+    }
+  }
+  @override
+  void initState(){
+    getdetail(4.toString());
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,16 +102,16 @@ class _ConsultationState extends State<Consultation> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
-            child: Text("Nom: ")
+            child: Text("Nom: "+ taskDetailResponse.name)
               ),
           Container(
-              child: Text("date d'échéance: ")
+              child: Text("date d'échéance: " + taskDetailResponse.deadline.toString())
           ),
           Container(
-              child: Text("Avancement: ")
+              child: Text("Avancement: "+ taskDetailResponse.percentageDone.toString())
           ),
           Container(
-              child: Text("temps écoulé: ")
+              child: Text("temps écoulé: "+ taskDetailResponse.percentageTimeSpent.toString())
           ),
           Container(
             width: double.infinity,

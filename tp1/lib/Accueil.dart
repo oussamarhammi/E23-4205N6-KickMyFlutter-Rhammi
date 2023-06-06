@@ -19,6 +19,7 @@ class _AccueilState extends State<Accueil> {
   List<HomeItemResponse> listtaches = [];
 
   bool Loading =false;
+
   Future<void> liste() async {
     var result = await home();
     if(result!= null)
@@ -37,6 +38,7 @@ class _AccueilState extends State<Accueil> {
     print(response);
     setState(() {});
   }
+
   @override
   void initState(){
     liste();

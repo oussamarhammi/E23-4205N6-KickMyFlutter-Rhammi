@@ -17,12 +17,44 @@ Map<String, dynamic> _$SignupRequestToJson(SignupRequest instance) =>
       'password': instance.password,
     };
 
+ProgressEvent _$ProgressEventFromJson(Map<String, dynamic> json) =>
+    ProgressEvent()
+      ..value = json['value'] as int?
+      ..timestamp = DateTime.parse(json['timestamp'] as String);
+
+Map<String, dynamic> _$ProgressEventToJson(ProgressEvent instance) =>
+    <String, dynamic>{
+      'value': instance.value,
+      'timestamp': instance.timestamp.toIso8601String(),
+    };
+
+TaskDetailResponse _$TaskDetailResponseFromJson(Map<String, dynamic> json) =>
+    TaskDetailResponse()
+      ..id = json['id'] as int?
+      ..name = json['name'] as String
+      ..deadline = DateTime.parse(json['deadline'] as String)
+      ..events = (json['events'] as List<dynamic>)
+          .map((e) => ProgressEvent.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..percentageDone = json['percentageDone'] as int?
+      ..percentageTimeSpent = (json['percentageTimeSpent'] as num).toDouble();
+
+Map<String, dynamic> _$TaskDetailResponseToJson(TaskDetailResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'deadline': instance.deadline.toIso8601String(),
+      'events': instance.events,
+      'percentageDone': instance.percentageDone,
+      'percentageTimeSpent': instance.percentageTimeSpent,
+    };
+
 HomeItemResponse _$HomeItemResponseFromJson(Map<String, dynamic> json) =>
     HomeItemResponse()
       ..id = json['id'] as int?
       ..name = json['name'] as String
       ..percentageDone = json['percentageDone'] as int
-      ..percentageTimeSpent = json['percentageTimeSpent'] as double
+      ..percentageTimeSpent = (json['percentageTimeSpent'] as num).toDouble()
       ..deadline = DateTime.parse(json['deadline'] as String);
 
 Map<String, dynamic> _$HomeItemResponseToJson(HomeItemResponse instance) =>
