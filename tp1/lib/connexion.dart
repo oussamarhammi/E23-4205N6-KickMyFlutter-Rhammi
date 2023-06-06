@@ -75,7 +75,7 @@ class _Connexion extends State<Connexion> {
             width: double.infinity,
             child:TextButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                 foregroundColor:  MaterialStateProperty.all<Color>(Colors.white),
               ),
               child: Text("Connexion "),
@@ -90,7 +90,7 @@ class _Connexion extends State<Connexion> {
             width: double.infinity,
             child:TextButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                 foregroundColor:  MaterialStateProperty.all<Color>(Colors.white),
               ),
               child: Text("Inscription "),

@@ -17,7 +17,7 @@ class Consultation extends StatefulWidget {
 }
 
 class _ConsultationState extends State<Consultation> {
-
+  double _value = 0;
   TaskDetailResponse taskDetailResponse = TaskDetailResponse();
   void postSignOUt() async{
     var response = await signout();
@@ -114,10 +114,28 @@ class _ConsultationState extends State<Consultation> {
               child: Text("temps écoulé: "+ taskDetailResponse.percentageTimeSpent.toString())
           ),
           Container(
+              child:Column(
+          children: [
+            Slider(
+            min: 0.0,
+            max: 100.0,
+            value: _value,
+            onChanged: (value) {
+            setState(() {
+            _value = value;
+            });
+            },
+            ),
+            Text(_value.toStringAsFixed(0) )
+          ],
+          )
+
+          ),
+          Container(
             width: double.infinity,
             child:TextButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                 foregroundColor:  MaterialStateProperty.all<Color>(Colors.white),
               ),
               child: Text("Modifier "),
