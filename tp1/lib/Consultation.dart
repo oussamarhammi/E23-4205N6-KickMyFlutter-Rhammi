@@ -9,7 +9,8 @@ import 'connexion.dart';
 import 'lib_http.dart';
 
 class Consultation extends StatefulWidget {
-  const Consultation({Key? key}) : super(key: key);
+  const Consultation({Key? key, required this.id}) : super(key: key);
+  final int id;
 
   @override
   State<Consultation> createState() => _ConsultationState();
@@ -27,10 +28,9 @@ class _ConsultationState extends State<Consultation> {
     print(response);
     setState(() {});
   }
-  void getdetail(String id) async {
+  void getdetail() async {
     try{
-      var response = await detail(id) ;
-      taskDetailResponse.id=response.id;
+      var response = await detail(widget.id.toString()) ;
       print(response);
       setState(() {});
     }
@@ -43,7 +43,7 @@ class _ConsultationState extends State<Consultation> {
   }
   @override
   void initState(){
-    getdetail(4.toString());
+    getdetail();
   }
   @override
   Widget build(BuildContext context) {
