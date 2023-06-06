@@ -3,6 +3,7 @@ import 'package:tp1/CreationTache.dart';
 import 'package:tp1/transfer.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import 'connexion.dart';
 import 'lib_http.dart';
 
 class Accueil extends StatefulWidget {
@@ -34,8 +35,15 @@ class _AccueilState extends State<Accueil> {
 
   @override
   Widget build(BuildContext context) {
-    final _controllerusername= TextEditingController();
-    final _controllerpassword= TextEditingController();
+    void postSignOUt() async{
+      var response = await signout();
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Connexion()),
+      );
+      print(response);
+      setState(() {});
+    }
 
     String name= "";
     return Scaffold(
@@ -47,16 +55,24 @@ class _AccueilState extends State<Accueil> {
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
-                child: Text('Drawer Header'),
+                child: Text("welcome back"),
               ),
               ListTile(
+                leading: Icon(
+                  Icons.home,
+                ),
                 title: const Text('Home'),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Accueil()),
+                  );
                 },
               ),
               ListTile(
+                leading: Icon(
+                  Icons.add_box_rounded,
+                ),
                 title: const Text('add task'),
                 onTap: () {
                   Navigator.push(
@@ -66,10 +82,13 @@ class _AccueilState extends State<Accueil> {
                 },
               ),
               ListTile(
+                leading: Icon(
+                  Icons.exit_to_app,
+                ),
                 title: const Text('Deconnexion'),
                 onTap: () {
                   // Update the state of the app.
-                  // ...
+                  postSignOUt();
                 },
               ),
             ],

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tp1/transfer.dart';
 import 'Accueil.dart';
+import 'connexion.dart';
 import 'lib_http.dart';
 class CreationTache extends StatefulWidget {
   const CreationTache({Key? key}) : super(key: key);
@@ -20,6 +21,15 @@ class _CreationTache extends State<CreationTache> {
     setState(() {
       today = day;
     });
+  }
+  void postSignOUt() async{
+    var response = await signout();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Connexion()),
+    );
+    print(response);
+    setState(() {});
   }
 
   void postAddTaskRequest() async {
@@ -46,6 +56,44 @@ class _CreationTache extends State<CreationTache> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer:Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Accueil()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('add task'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CreationTache()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Deconnexion'),
+              onTap: () {
+                // Update the state of the app.
+                postSignOUt();
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: Text('Creation tache'),
       ),

@@ -81,6 +81,7 @@ class _Connexion extends State<Connexion> {
               child: Text("Connexion "),
               onPressed:() async{
                 postSigninrequest ();
+                name = _controllerusername.text;
               },
             ),
             padding: EdgeInsets.all(32),

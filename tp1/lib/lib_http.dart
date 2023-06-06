@@ -69,6 +69,26 @@ Future<String> addtask(AddTaskRequest req) async {
   }
 }
 
+Future<String> signout() async {
+  try {
+    var response = await SingletonDio.getDio().post(
+        'http://10.0.2.2:8080/api/id/signout',
+    );
+    print(response);
+    return  response.data;
+  } catch (e) {
+    print(e);
+    String message = (e as DioError).response!.data;
+    if(message == "BadCredentialsException") {
+      throw Exception('BadCredentialsException');
+    }
+    else{
+      throw Exception('erreur serveur');
+    }
+    }
+  }
+
+
 Future<SigninResponse> signin(SigninRequest req) async {
   try {
     var response = await SingletonDio.getDio().post(
