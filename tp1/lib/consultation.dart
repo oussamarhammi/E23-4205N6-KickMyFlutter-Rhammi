@@ -106,11 +106,12 @@ class _ConsultationState extends State<Consultation> {
                         child: Text("Modifier "),
                         onPressed: () {
                           progress(widget.id, _value.toInt());
+                          setState(() {});
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => Accueil()),
                           );
-                          setState(() {});
+
                         },
                       ),
                       padding: EdgeInsets.fromLTRB(32, 0, 32, 0),

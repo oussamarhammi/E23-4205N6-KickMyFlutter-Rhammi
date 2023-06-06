@@ -68,7 +68,6 @@ class _AccueilState extends State<Accueil> {
                         width: 300.0,
                         lineHeight: 14.0,
                         percent:double.parse((listtaches[index].percentageDone/100).toString()),
-
                         center:Text(listtaches[index].percentageDone.toString(),
                           style: new TextStyle(fontSize: 12.0),
                         ),
