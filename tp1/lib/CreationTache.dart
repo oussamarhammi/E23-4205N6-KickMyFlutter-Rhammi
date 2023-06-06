@@ -14,14 +14,24 @@ class CreationTache extends StatefulWidget {
   State<CreationTache> createState() => _CreationTache();
 }
 
+
+
+
 class _CreationTache extends State<CreationTache> {
+
+
+  String _selectedDate = 'choisi la date';
   final _controllertache = TextEditingController();
   DateTime today = DateTime.now();
-  void _onDaySelected(DateTime day,DateTime focusedDay){
-    setState(() {
-      today = day;
-    });
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? d = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2010), lastDate: DateTime(2030),);
+    if (d != null)
+      setState(() {
+        _selectedDate = d.toLocal().toString();
+        today = d;
+      });
   }
+
   void postSignOUt() async{
     var response = await signout();
     Navigator.push(
@@ -97,57 +107,68 @@ class _CreationTache extends State<CreationTache> {
       appBar: AppBar(
         title: Text('Creation tache'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+      body:
           Container(
-            child: TextField(
-              controller: _controllertache,
-              decoration: InputDecoration(
-                labelText: 'Tache',
-                hintText: 'nom de la tache',
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  child: Column(
+                    children: [
+                      Container(
+                        child: TextField(
+                          controller: _controllertache,
+                          decoration: InputDecoration(
+                            labelText: 'Tache',
+                            hintText: 'nom de la tache',
+                          ),
+                        ),
+                        padding: EdgeInsets.fromLTRB(30,0, 62,32),
+                      ),
+                      Container(
+                        child:Row(
+                          children: <Widget>[
+                            Text(_selectedDate
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.calendar_today),
+                              onPressed: () {
+                                _selectDate(context);
+                              },
+                            ),
+                          ],
+                        ),
+                        padding: EdgeInsets.fromLTRB(30,0, 62,10),
+
+                      ),
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.fromLTRB(62,0, 62,0),
+                        child:TextButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                            foregroundColor:  MaterialStateProperty.all<Color>(Colors.white),
+                          ),
+                          child: Text("Ajouter"),
+                          onPressed:() async {
+                            postAddTaskRequest();
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                      shape: BoxShape.rectangle,
+                      border: Border.all(
+                        color: Colors.blue,
+                        width: 4,
+                      )),
+                ),
+              ],
             ),
-            padding: EdgeInsets.fromLTRB(32, 1, 32, 20),
+            padding: EdgeInsets.fromLTRB(30,0, 30,0),
           ),
-          Container(
-            child: TableCalendar(
-              locale: "en_US",
-              rowHeight: 43,
-              headerStyle:
-              HeaderStyle(formatButtonVisible: false, titleCentered: true),
-              availableGestures: AvailableGestures.all,
-              selectedDayPredicate: (day)=> isSameDay(day, today),
-              focusedDay: today,
-              firstDay: DateTime.utc(2010,09,20),
-              lastDay: DateTime.utc(2030,3,14),
-              onDaySelected: _onDaySelected,
-            ),
-          ),
-          Container(
-              child: Text("Selected day = "+today.toString().split(" ",)[0]),
-            padding: const EdgeInsets.all(20.0) ,
-          ),
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.fromLTRB(32,0, 32,150),
-            child:TextButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
-                foregroundColor:  MaterialStateProperty.all<Color>(Colors.white),
-              ),
-              child: Text("Ajouter"),
-              onPressed:() async {
-                postAddTaskRequest();
-
-              },
-            ),
-          ),
-
-
-        ],
-
-      ),
     );
   }
 }

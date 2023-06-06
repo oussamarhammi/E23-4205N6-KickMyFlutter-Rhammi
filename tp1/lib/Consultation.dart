@@ -30,8 +30,8 @@ class _ConsultationState extends State<Consultation> {
   }
   void getdetail() async {
     try{
-      var response = await detail(widget.id.toString()) ;
-      print(response);
+      taskDetailResponse = await detail(widget.id.toString()) ;
+      print(taskDetailResponse);
       setState(() {});
     }
     catch(e){
