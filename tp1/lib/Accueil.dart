@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tp1/CreationTache.dart';
 import 'package:tp1/transfer.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 import 'lib_http.dart';
 
@@ -14,6 +15,8 @@ class Accueil extends StatefulWidget {
 class _AccueilState extends State<Accueil> {
 
   List<HomeItemResponse> listtaches = [];
+
+  bool Loading =false;
   Future<void> liste() async {
     var result = await home();
     if(result!= null)
@@ -26,6 +29,7 @@ class _AccueilState extends State<Accueil> {
   @override
   void initState(){
     liste();
+
   }
 
   @override
@@ -55,8 +59,10 @@ class _AccueilState extends State<Accueil> {
               ListTile(
                 title: const Text('add task'),
                 onTap: () {
-                  // Update the state of the app.
-                  // ...
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CreationTache()),
+                  );
                 },
               ),
               ListTile(
@@ -72,34 +78,60 @@ class _AccueilState extends State<Accueil> {
         appBar: AppBar(
           title: Text('Accueil'),
         ),
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ListView(
-                padding: const EdgeInsets.all(8),
-                children:<Widget> [
+        body:ListView.separated(
+          itemCount: listtaches.length,
+          itemBuilder: ( BuildContext context,int index) {
+            return Container(
+              color: index.isEven ? Colors.green : Colors.blue,
+              child:
+                ListTile(
+                  trailing: Icon(Icons.date_range),
+                  title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(listtaches[index].id.toString()),
+                      SizedBox(width: 10),
+                       Text(listtaches[index].name),
 
-                ],
-              ),
-              Text(name),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.fromLTRB(32,0, 32,150),
-                child:TextButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
-                    foregroundColor:  MaterialStateProperty.all<Color>(Colors.white),
+                    ],
                   ),
-                  child: Text("Cree Tache "),
-                  onPressed:() async {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CreationTache()),
-                    );
-                  },
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      LinearPercentIndicator(
+                        width: 300.0,
+                        lineHeight: 14.0,
+                        percent:double.parse((listtaches[index].percentageDone/100).toString()),
+                        center:Text(listtaches[index].percentageDone.toString(),
+                          style: new TextStyle(fontSize: 12.0),
+                        ),
+                        barRadius: const Radius.circular(16),
+                        backgroundColor: Colors.grey,
+                        progressColor: Colors.orange,
+                      ),
+
+                      Row(
+                        children: [
+
+                          Text(listtaches[index].deadline.toString(),
+                            style: new TextStyle(fontSize: 15.0)),
+                          SizedBox(width:50),
+                          Text(listtaches[index].percentageTimeSpent.toString() + " jours"),
+                        ],
+                      )
+
+                    ],
+                  ),
+
+
                 ),
-              ),
-            ]
+
+
+            );
+          },
+          separatorBuilder: (context, index) {
+            return Divider();
+          },
         )
     );
   }

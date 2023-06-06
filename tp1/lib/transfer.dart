@@ -19,8 +19,8 @@ class HomeItemResponse  {
   HomeItemResponse ();
   int? id;
   String name='';
-  int? percentageDone;
-  double? percentageTimeSpent;
+  int percentageDone=0;
+  double percentageTimeSpent=0;
   DateTime deadline= DateTime.now();
   factory HomeItemResponse.fromJson(Map<String, dynamic> json) => _$HomeItemResponseFromJson(json);
   Map<String, dynamic> toJson() => _$HomeItemResponseToJson(this);

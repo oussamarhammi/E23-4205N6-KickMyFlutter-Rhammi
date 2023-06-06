@@ -21,8 +21,8 @@ HomeItemResponse _$HomeItemResponseFromJson(Map<String, dynamic> json) =>
     HomeItemResponse()
       ..id = json['id'] as int?
       ..name = json['name'] as String
-      ..percentageDone = json['percentageDone'] as int?
-      ..percentageTimeSpent = (json['percentageTimeSpent'] as num?)?.toDouble()
+      ..percentageDone = json['percentageDone'] as int
+      ..percentageTimeSpent = json['percentageTimeSpent'] as double
       ..deadline = DateTime.parse(json['deadline'] as String);
 
 Map<String, dynamic> _$HomeItemResponseToJson(HomeItemResponse instance) =>

@@ -34,6 +34,7 @@ dependencies:
   dio_cookie_manager: ^3.0.0
   json_annotation: ^4.8.1
   table_calendar: ^3.0.1
+  percent_indicator: ^4.0.1
 
   #pour gerer les objet json (leur types en bas dans dev_dep il y a les librairie necessaire qui seront add)
 
