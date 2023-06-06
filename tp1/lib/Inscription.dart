@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:tp1/Accueil.dart';
+import 'package:tp1/accueil.dart';
+import 'package:tp1/drawer.dart';
 import 'package:tp1/transfer.dart';
+import 'package:tp1/username.dart';
 
 import 'lib_http.dart';
 
@@ -101,6 +103,8 @@ class _Inscription extends State<Inscription> {
               child: Text("Connexion "),
               onPressed:() async {
                 postSignuprequest();
+                usernamebonbon = _controllerusername.text;
+                MyDrawer(nomUtilisateur:usernamebonbon);
               },
             ),
           ),

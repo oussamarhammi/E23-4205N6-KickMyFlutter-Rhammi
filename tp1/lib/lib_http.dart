@@ -6,8 +6,8 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 
 
-class SingletonDio {
 
+class SingletonDio {
   static var cookiemanager = CookieManager(CookieJar());
 
   static Dio getDio() {
@@ -90,10 +90,10 @@ Future<String> signout() async {
     }
   }
 
-Future<String> progress(String id,String valeur) async {
+Future<String> progress(int id,int valeur) async {
   try {
     var response = await SingletonDio.getDio().get(
-      'http://10.0.2.2:8080/api/progress/'+id+'/'+valeur,
+      'http://10.0.2.2:8080/api/progress/$id/$valeur',
     );
     print(response);
     return  response.data;

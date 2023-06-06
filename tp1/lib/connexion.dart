@@ -4,10 +4,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tp1/drawer.dart';
 import 'package:tp1/lib_http.dart';
 import 'package:tp1/transfer.dart';
+import 'package:tp1/username.dart';
 
-import 'Accueil.dart';
+import 'accueil.dart';
 import 'Inscription.dart';
 
 class Connexion extends StatefulWidget {
@@ -49,7 +51,6 @@ class _Connexion extends State<Connexion> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(name),
           Container(
             child: TextField(
               controller: _controllerusername,
@@ -81,7 +82,9 @@ class _Connexion extends State<Connexion> {
               child: Text("Connexion "),
               onPressed:() async{
                 postSigninrequest ();
-                name = _controllerusername.text;
+                usernamebonbon = _controllerusername.text;
+                MyDrawer(nomUtilisateur: usernamebonbon);
+                setState(() {});
               },
             ),
             padding: EdgeInsets.all(32),

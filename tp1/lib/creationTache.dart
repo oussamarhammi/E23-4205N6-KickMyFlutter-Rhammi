@@ -3,8 +3,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:tp1/drawer.dart';
 import 'package:tp1/transfer.dart';
-import 'Accueil.dart';
+import 'package:tp1/username.dart';
+import 'accueil.dart';
 import 'connexion.dart';
 import 'lib_http.dart';
 class CreationTache extends StatefulWidget {
@@ -66,44 +68,7 @@ class _CreationTache extends State<CreationTache> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer:Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('Drawer Header'),
-            ),
-            ListTile(
-              title: const Text('Home'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Accueil()),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text('add task'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CreationTache()),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text('Deconnexion'),
-              onTap: () {
-                // Update the state of the app.
-                postSignOUt();
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer:MyDrawer(nomUtilisateur: usernamebonbon),
       appBar: AppBar(
         title: Text('Creation tache'),
       ),

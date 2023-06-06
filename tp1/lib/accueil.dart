@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:tp1/CreationTache.dart';
 import 'package:tp1/transfer.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:tp1/username.dart';
 
 import 'Consultation.dart';
 import 'connexion.dart';
+import 'drawer.dart';
 import 'lib_http.dart';
 
 class Accueil extends StatefulWidget {
@@ -29,15 +31,6 @@ class _AccueilState extends State<Accueil> {
     setState(() { });
   }
 
-  void postSignOUt() async{
-    var response = await signout();
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Connexion()),
-    );
-    print(response);
-    setState(() {});
-  }
 
   @override
   void initState(){
@@ -47,55 +40,8 @@ class _AccueilState extends State<Accueil> {
 
   @override
   Widget build(BuildContext context) {
-    String name= "";
     return Scaffold(
-        drawer:Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Text("welcome back"),
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.home,
-                ),
-                title: const Text('Home'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Accueil()),
-                  );
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.add_box_rounded,
-                ),
-                title: const Text('add task'),
-                onTap: () {
-                  Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CreationTache()),
-                  );
-                },
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.exit_to_app,
-                ),
-                title: const Text('Deconnexion'),
-                onTap: () {
-                  // Update the state of the app.
-                  postSignOUt();
-                },
-              ),
-            ],
-          ),
-        ),
+       drawer: MyDrawer(nomUtilisateur:usernamebonbon),
         appBar: AppBar(
           title: Text('Accueil'),
         ),
