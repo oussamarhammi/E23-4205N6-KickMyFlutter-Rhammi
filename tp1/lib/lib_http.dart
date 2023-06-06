@@ -90,6 +90,25 @@ Future<String> signout() async {
     }
   }
 
+Future<String> progress(String id,String valeur) async {
+  try {
+    var response = await SingletonDio.getDio().get(
+      'http://10.0.2.2:8080/api/progress/'+id+'/'+valeur,
+    );
+    print(response);
+    return  response.data;
+  } catch (e) {
+    print(e);
+    String message = (e as DioError).response!.data;
+    if(message == "BadCredentialsException") {
+      throw Exception('BadCredentialsException');
+    }
+    else{
+      throw Exception('erreur serveur');
+    }
+  }
+}
+
 Future<TaskDetailResponse> detail(String id) async {
   try {
     var response = await SingletonDio.getDio().get(
