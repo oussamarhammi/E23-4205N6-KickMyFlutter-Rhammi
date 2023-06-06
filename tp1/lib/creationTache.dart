@@ -128,7 +128,8 @@ class _CreationTache extends State<CreationTache> {
                       border: Border.all(
                         color: Colors.blue,
                         width: 4,
-                      )),
+                      ),
+                  ),
                 ),
               ],
             ),

@@ -1,7 +1,8 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tp1/drawer.dart';
 import 'package:tp1/transfer.dart';
+import 'package:tp1/username.dart';
 
 import 'Accueil.dart';
 import 'CreationTache.dart';
@@ -19,7 +20,8 @@ class Consultation extends StatefulWidget {
 class _ConsultationState extends State<Consultation> {
   double _value = 0;
   TaskDetailResponse taskDetailResponse = TaskDetailResponse();
-  void postSignOUt() async{
+
+  void postSignOUt() async {
     var response = await signout();
     Navigator.push(
       context,
@@ -28,130 +30,92 @@ class _ConsultationState extends State<Consultation> {
     print(response);
     setState(() {});
   }
+
   void getdetail() async {
-    try{
-      taskDetailResponse = await detail(widget.id.toString()) ;
+    try {
+      taskDetailResponse = await detail(widget.id.toString());
       print(taskDetailResponse);
       setState(() {});
-    }
-    catch(e){
+    } catch (e) {
       print(e);
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur reseau'),
-          ));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Erreur reseau'),
+      ));
     }
   }
+
   @override
-  void initState(){
+  void initState() {
     getdetail();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer:Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
+      drawer:MyDrawer(nomUtilisateur: usernamebonbon),
+      appBar: AppBar(
+        title: Text('Consultation'),
+      ),
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(child: Text("Nom: " + taskDetailResponse.name)),
+            Container(
+                child: Text("date d'échéance: " +
+                    taskDetailResponse.deadline.toString())),
+            Container(
+                child: Text("Avancement: " +
+                    taskDetailResponse.percentageDone.toString())),
+            Container(
+                child: Text("temps écoulé: " +
+                    taskDetailResponse.percentageTimeSpent.toString())),
+            Container(
+                child: Column(
+              children: [
+                Slider(
+                  min: 0.0,
+                  max: 100.0,
+                  value: _value,
+                  onChanged: (value) {
+                    setState(() {
+                      _value = value;
+                    });
+                  },
+                ),
+                Text(_value.toStringAsFixed(0))
+              ],
+            )),
+            Container(
+              width: double.infinity,
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                  foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                ),
+                child: Text("Modifier "),
+                onPressed: () {
+                  progress(widget.id, _value.toInt());
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Accueil()),
+                  );
+                  setState(() {});
+                },
               ),
-              child: Text("welcome back"),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.home,
-              ),
-              title: const Text('Home'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Accueil()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.add_box_rounded,
-              ),
-              title: const Text('add task'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CreationTache()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.exit_to_app,
-              ),
-              title: const Text('Deconnexion'),
-              onTap: () {
-                // Update the state of the app.
-                postSignOUt();
-              },
+              padding: EdgeInsets.fromLTRB(32, 0, 32, 0),
             ),
           ],
         ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+          shape: BoxShape.rectangle,
+          border: Border.all(
+            color: Colors.blue,
+            width: 4,
+          ),
+        ),
       ),
-      appBar: AppBar(
-        title: Text('Accueil'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            child: Text("Nom: "+ taskDetailResponse.name)
-              ),
-          Container(
-              child: Text("date d'échéance: " + taskDetailResponse.deadline.toString())
-          ),
-          Container(
-              child: Text("Avancement: "+ taskDetailResponse.percentageDone.toString())
-          ),
-          Container(
-              child: Text("temps écoulé: "+ taskDetailResponse.percentageTimeSpent.toString())
-          ),
-          Container(
-              child:Column(
-          children: [
-            Slider(
-            min: 0.0,
-            max: 100.0,
-            value: _value,
-            onChanged: (value) {
-            setState(() {
-            _value = value;
-            });
-            },
-            ),
-            Text(_value.toStringAsFixed(0) )
-          ],
-          )
-
-          ),
-          Container(
-            width: double.infinity,
-            child:TextButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
-                foregroundColor:  MaterialStateProperty.all<Color>(Colors.white),
-              ),
-              child: Text("Modifier "),
-              onPressed:(){
-                progress(widget.id, _value.toInt());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Accueil()),
-                );
-                setState(() { });
-              },
-            ),
-            padding: EdgeInsets.fromLTRB(32,0, 32, 0),
-          ),
-  ],
-    ),
     );
   }
 }
