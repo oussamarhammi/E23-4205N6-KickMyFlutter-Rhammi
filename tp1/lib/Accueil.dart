@@ -3,6 +3,7 @@ import 'package:tp1/CreationTache.dart';
 import 'package:tp1/transfer.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import 'Consultation.dart';
 import 'connexion.dart';
 import 'lib_http.dart';
 
@@ -25,7 +26,16 @@ class _AccueilState extends State<Accueil> {
       listtaches =result;
     }
     setState(() { });
+  }
 
+  void postSignOUt() async{
+    var response = await signout();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Connexion()),
+    );
+    print(response);
+    setState(() {});
   }
   @override
   void initState(){
@@ -35,16 +45,6 @@ class _AccueilState extends State<Accueil> {
 
   @override
   Widget build(BuildContext context) {
-    void postSignOUt() async{
-      var response = await signout();
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Connexion()),
-      );
-      print(response);
-      setState(() {});
-    }
-
     String name= "";
     return Scaffold(
         drawer:Drawer(
@@ -104,14 +104,13 @@ class _AccueilState extends State<Accueil> {
               color: index.isEven ? Colors.green : Colors.blue,
               child:
                 ListTile(
-                  trailing: Icon(Icons.date_range),
+                  trailing: Icon(Icons.info),
                   title: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(listtaches[index].id.toString()),
                       SizedBox(width: 10),
                        Text(listtaches[index].name),
-
                     ],
                   ),
                   subtitle: Column(
@@ -128,10 +127,8 @@ class _AccueilState extends State<Accueil> {
                         backgroundColor: Colors.grey,
                         progressColor: Colors.orange,
                       ),
-
                       Row(
                         children: [
-
                           Text(listtaches[index].deadline.toString(),
                             style: new TextStyle(fontSize: 15.0)),
                           SizedBox(width:50),
@@ -141,7 +138,12 @@ class _AccueilState extends State<Accueil> {
 
                     ],
                   ),
-
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Consultation()),
+                    );
+                  },
 
                 ),
 
