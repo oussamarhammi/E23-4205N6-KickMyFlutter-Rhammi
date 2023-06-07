@@ -53,63 +53,78 @@ class _Inscription extends State<Inscription> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Inscription'),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(name),
-          Container(
-            child: TextField(
-              controller: _controllerusername,
-              decoration: InputDecoration(
-                labelText: 'Username',
-                hintText: 'Enter your username',
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    child: TextField(
+                      controller: _controllerusername,
+                      decoration: InputDecoration(
+                        labelText: 'Username',
+                        hintText: 'Enter your username',
+                      ),
+                    ),
+                    padding: EdgeInsets.all(15),
+                  ),
+                  Container(
+                    child: TextField(
+                      controller: _controllerpassword,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: 'Enter your password',
+                      ),
+                    ),
+                    padding: EdgeInsets.all(15),
+                  ),
+                  Container(
+                    child: TextField(
+                      controller: _controllerconfirmedpassword,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: 'Confirm Password',
+                        hintText: 'Enter your password',
+                      ),
+                    ),
+                    padding: EdgeInsets.all(15),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    child:TextButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                        foregroundColor:  MaterialStateProperty.all<Color>(Colors.white),
+                      ),
+                      child: Text("Inscription "),
+                      onPressed:() async{
+                        postSignuprequest ();
+                        usernamebonbon = _controllerusername.text;
+                        MyDrawer(nomUtilisateur: usernamebonbon);
+                        setState(() {});
+                      },
+                    ),
+                    padding:EdgeInsets.fromLTRB(30,5, 30,5),
+                  ),
+                ],
+              ),
+              padding: EdgeInsets.fromLTRB(32,0, 32, 0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  shape: BoxShape.rectangle,
+                  border: Border.all(
+                    color: Colors.blue,
+                    width: 4,
+                  )
               ),
             ),
-            padding: EdgeInsets.fromLTRB(32,1, 32, 20),
-          ),
-          Container(
-            child: TextField(
-              controller: _controllerpassword,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Enter your password',
-              ),
-            ),
-            padding: EdgeInsets.fromLTRB(32,1, 32, 20),
-          ),
-          Container(
-            child: TextField(
-              controller: _controllerconfirmedpassword,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Confirm Password',
-                hintText: 'Enter your Confirmed password',
-              ),
-            ),
-            padding: EdgeInsets.fromLTRB(32,1, 32, 20),
-          ),
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.fromLTRB(32,0, 32,150),
-            child:TextButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.purple),
-                foregroundColor:  MaterialStateProperty.all<Color>(Colors.white),
-              ),
-              child: Text("Connexion "),
-              onPressed:() async {
-                postSignuprequest();
-                usernamebonbon = _controllerusername.text;
-                MyDrawer(nomUtilisateur:usernamebonbon);
-              },
-            ),
-          ),
-        ],
-
+          ],
+        ),
+        padding:EdgeInsets.fromLTRB(30,0, 30,0),
       ),
     );
   }
